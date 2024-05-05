@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   const codeVerifier = cookies().get("codeVerifier")?.value;
 
   if (!code || !storedState || !codeVerifier || state !== storedState) {
-    return Response.redirect(process.env.NEXT_PUBLIC_URL!);
+    return Response.redirect(process.env.NEXT_PUBLIC_URL);
   }
 
   const tokens = await google.validateAuthorizationCode(code, codeVerifier);
@@ -41,5 +41,5 @@ export async function GET(request: Request) {
 
   console.log(googleUser);
 
-  return Response.redirect(process.env.NEXT_PUBLIC_URL!);
+  return Response.redirect(process.env.NEXT_PUBLIC_URL);
 }
