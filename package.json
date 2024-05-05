@@ -3,24 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "pnpm docker:up && pnpm generate && pnpm migrate && concurrently -n nextjs,studio -c blue.bold,green.bold \"next dev\" \"pnpm studio\"",
+    "next:dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docker:up": "docker compose up --force-recreate --wait -V && sleep 1",
+    "generate": "drizzle-kit generate:pg",
+    "migrate": "dotenv -- tsx db/migrate.ts",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@types/pg": "^8.11.6",
+    "drizzle-kit": "^0.20.17",
+    "drizzle-orm": "^0.30.10",
+    "next": "14.2.3",
+    "postgres": "^3.4.4",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "concurrently": "^8.2.2",
+    "dotenv-cli": "^7.4.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "pg": "^8.11.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3"
+    "tsx": "^4.9.1",
+    "typescript": "^5"
   }
 }
