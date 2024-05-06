@@ -14,10 +14,11 @@
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@types/pg": "^8.11.6",
+    "@lucia-auth/adapter-drizzle": "^1.0.7",
     "arctic": "^1.8.0",
     "drizzle-kit": "^0.20.17",
     "drizzle-orm": "^0.30.10",
+    "lucia": "^3.2.0",
     "next": "14.2.3",
     "postgres": "^3.4.4",
     "react": "^18",

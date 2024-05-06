@@ -1,4 +1,6 @@
 import { google } from "@/config/arctic";
+import { lucia } from "@/config/lucia";
+import { db, userSchema } from "@db";
 import { cookies } from "next/headers";
 
 interface GoogleUser {
@@ -13,8 +15,6 @@ interface GoogleUser {
 }
 
 export async function GET(request: Request) {
-  // return Response.redirect("http://localhost:3000");
-
   const url = new URL(request.url);
 
   const code = url.searchParams.get("code");
@@ -37,9 +37,31 @@ export async function GET(request: Request) {
       },
     }
   );
+
   const googleUser: GoogleUser = await response.json();
 
-  console.log(googleUser);
+  const [user] = await db
+    .insert(userSchema)
+    .values({
+      googleId: googleUser.sub,
+      name: googleUser.name,
+      email: googleUser.email,
+      avatarUrl: googleUser.picture,
+    })
+    .onConflictDoUpdate({
+      target: userSchema.googleId,
+      set: {
+        name: googleUser.name,
+        email: googleUser.email,
+        avatarUrl: googleUser.picture,
+      },
+    })
+    .returning({ id: userSchema.id });
+
+  const session = await lucia.createSession(user.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+
+  cookies().set(sessionCookie);
 
   return Response.redirect(process.env.NEXT_PUBLIC_URL);
 }
