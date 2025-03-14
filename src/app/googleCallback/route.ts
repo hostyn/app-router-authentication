@@ -20,8 +20,10 @@ export async function GET(request: Request) {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
 
-  const storedState = cookies().get("state")?.value;
-  const codeVerifier = cookies().get("codeVerifier")?.value;
+  const c = await cookies();
+
+  const storedState = c.get("state")?.value;
+  const codeVerifier = c.get("codeVerifier")?.value;
 
   if (!code || !storedState || !codeVerifier || state !== storedState) {
     return Response.redirect(process.env.NEXT_PUBLIC_URL);
@@ -61,7 +63,7 @@ export async function GET(request: Request) {
   const session = await lucia.createSession(user.id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
 
-  cookies().set(sessionCookie);
+  c.set(sessionCookie);
 
   return Response.redirect(process.env.NEXT_PUBLIC_URL);
 }

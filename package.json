@@ -9,34 +9,40 @@
     "start": "next start",
     "lint": "next lint",
     "docker:up": "docker compose up --force-recreate --wait -V && sleep 1",
-    "generate": "drizzle-kit generate:pg",
+    "generate": "drizzle-kit generate",
     "migrate": "dotenv -- tsx db/migrate.ts",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@lucia-auth/adapter-drizzle": "^1.0.7",
+    "@lucia-auth/adapter-drizzle": "^1.1.0",
     "arctic": "^1.8.0",
-    "drizzle-kit": "^0.20.17",
-    "drizzle-orm": "^0.30.10",
-    "lucia": "^3.2.0",
-    "next": "14.2.3",
-    "postgres": "^3.4.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "zod": "^3.23.6"
+    "drizzle-kit": "^0.30.5",
+    "drizzle-orm": "^0.40.0",
+    "lucia": "^3.2.2",
+    "next": "15.2.2",
+    "postgres": "^3.4.5",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "concurrently": "^8.2.2",
+    "@types/node": "^22.13.10",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "concurrently": "^9.1.2",
     "dotenv-cli": "^7.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3",
-    "pg": "^8.11.5",
+    "eslint": "^9.22.0",
+    "eslint-config-next": "15.2.2",
+    "pg": "^8.14.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "tsx": "^4.9.1",
-    "typescript": "^5"
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.10",
+      "@types/react-dom": "19.0.4"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { db, sessionSchema, userSchema } from "@db";
-import { Lucia, TimeSpan } from "lucia";
+import { Lucia } from "lucia";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { InferSelectModel } from "drizzle-orm";
 

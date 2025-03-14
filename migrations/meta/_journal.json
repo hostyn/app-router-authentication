@@ -1,12 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714927702388,
-      "tag": "0000_lush_sharon_ventura",
+      "version": "7",
+      "when": 1741948227734,
+      "tag": "0000_salty_ravenous",
       "breakpoints": true
     }
   ]

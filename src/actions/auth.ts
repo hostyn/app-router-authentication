@@ -8,7 +8,8 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const getUser = cache(async () => {
-  const sessionCookie = cookies().get(lucia.sessionCookieName)?.value;
+  const c = await cookies();
+  const sessionCookie = c.get(lucia.sessionCookieName)?.value;
   if (!sessionCookie) return null;
 
   const { user, session } = await lucia.validateSession(sessionCookie);
@@ -16,25 +17,26 @@ export const getUser = cache(async () => {
 
   if (session && session.fresh) {
     const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(sessionCookie);
+    c.set(sessionCookie);
   }
 
   if (!session) {
     const sessionCookie = lucia.createBlankSessionCookie();
-    cookies().set(sessionCookie);
+    c.set(sessionCookie);
   }
 
   return user;
 });
 
 export const signInWithGoogle = async () => {
+  const c = await cookies();
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const url = await google.createAuthorizationURL(state, codeVerifier, {
     scopes: ["profile", "email"],
   });
 
-  cookies().set("state", state, {
+  c.set("state", state, {
     path: "/",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -42,7 +44,7 @@ export const signInWithGoogle = async () => {
     sameSite: "lax",
   });
 
-  cookies().set("codeVerifier", codeVerifier, {
+  c.set("codeVerifier", codeVerifier, {
     path: "/",
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -54,10 +56,11 @@ export const signInWithGoogle = async () => {
 };
 
 export const signOut = async () => {
-  const sessionCookie = cookies().get(lucia.sessionCookieName)?.value;
+  const c = await cookies();
+  const sessionCookie = c.get(lucia.sessionCookieName)?.value;
   if (!sessionCookie) return;
 
   await lucia.invalidateSession(sessionCookie);
 
-  cookies().set(lucia.createBlankSessionCookie());
+  c.set(lucia.createBlankSessionCookie());
 };
